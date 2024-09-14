@@ -1,0 +1,1207 @@
+{
+	"info": {
+		"_postman_id": "adfd4b27-2dd2-4fd5-bab9-53431969d2eb",
+		"name": "Social Club",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29601489"
+	},
+	"item": [
+		{
+			"name": "Clubs",
+			"item": [
+				{
+					"name": "Create Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"// Save clubId to environment variable\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"clubId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Club\",\n    \"foundationDate\": \"2023-01-01\",\n    \"image\": \"testclub.jpg\",\n    \"description\": \"A test club\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Invalid Club\",\n  \"foundationDate\": \"2000-01-01\",\n  \"image\": \"http://example.com/image.png\",\n  \"description\": \"This description is intentionally made very long to exceed the 100 characters limit imposed by the validation rules set in the application logic to test the invalid scenario.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Clubs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Club by ID (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Club by ID (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{nonExistentClubId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{nonExistentClubId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Chess Club Updated\",\n  \"foundationDate\": \"2000-01-01\",\n  \"image\": \"http://example.com/new-image.png\",\n  \"description\": \"An updated description within 100 characters.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Non-existent Club\",\n  \"foundationDate\": \"2000-01-01\",\n  \"image\": \"http://example.com/image.png\",\n  \"description\": \"Attempting to update a club that does not exist.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{nonExistentClubId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{nonExistentClubId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"// Clear clubId from environment variables\r",
+									"pm.environment.unset(\"clubId\");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{nonExistentClubId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{nonExistentClubId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Members",
+			"item": [
+				{
+					"name": "Create Member (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"// Save memberId to environment variable\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"memberId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"john_doe\",\n  \"email\": \"john@example.com\",\n  \"birthDate\": \"1990-05-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Member (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"jane_doe\",\n  \"email\": \"janeexample.com\",\n  \"birthDate\": \"1992-08-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member by ID (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members/{{memberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member by ID (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members/{{nonExistentMemberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members",
+								"{{nonExistentMemberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"john_doe_updated\",\n  \"email\": \"john_updated@example.com\",\n  \"birthDate\": \"1990-05-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/members/{{memberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Member (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"ghost_member\",\n  \"email\": \"ghost@example.com\",\n  \"birthDate\": \"1980-01-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/members/{{nonExistentMemberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members",
+								"{{nonExistentMemberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"// Clear memberId from environment variables\r",
+									"pm.environment.unset(\"memberId\");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members/{{memberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/members/{{nonExistentMemberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members",
+								"{{nonExistentMemberId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Club-Members",
+			"item": [
+				{
+					"name": "Create Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"// Save clubId to environment variable\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"clubId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Club\",\n    \"foundationDate\": \"2023-01-01\",\n    \"image\": \"testclub.jpg\",\n    \"description\": \"A test club\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Member (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"// Save memberId to environment variable\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"memberId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"john_doe\",\n  \"email\": \"john@example.com\",\n  \"birthDate\": \"1990-05-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Member to Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members/{{memberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Member to Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members/{{nonExistentMemberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members",
+								"{{nonExistentMemberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Members from Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Members from Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{nonExistentClubId}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{nonExistentClubId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member from Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members/{{memberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member from Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members/{{nonExistentMemberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members",
+								"{{nonExistentMemberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Members in Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  \"{{memberId}}\"\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Members in Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  \"{{nonExistentMemberId}}\"\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member from Club (Valid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members/{{memberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member from Club (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clubs/{{clubId}}/members/{{nonExistentMemberId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clubs",
+								"{{clubId}}",
+								"members",
+								"{{nonExistentMemberId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
