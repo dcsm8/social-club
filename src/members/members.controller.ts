@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  HttpCode,
 } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -44,6 +45,7 @@ export class MembersController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   async remove(@Param('id') id: string): Promise<void> {
     return this.membersService.delete(id);
   }

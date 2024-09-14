@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  HttpCode,
 } from '@nestjs/common';
 import { ClubMembersService } from './club-members.service';
 import { Member } from '../members/entities/member.entity';
@@ -47,6 +48,7 @@ export class ClubMembersController {
   }
 
   @Delete(':memberId')
+  @HttpCode(204)
   async deleteMemberFromClub(
     @Param('clubId') clubId: string,
     @Param('memberId') memberId: string,
