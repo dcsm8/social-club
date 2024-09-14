@@ -1,73 +1,112 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Social Club API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este es un proyecto de Nest.js que implementa un sistema para un club social. La aplicación permite gestionar socios, clubes y la asociación entre ellos.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## **Tabla de Contenidos**
 
-## Description
+- [Prerrequisitos](#prerrequisitos)
+- [Instalación](#instalación)
+- [Ejecución de la Aplicación](#ejecución-de-la-aplicación)
+- [Ejecución de Pruebas](#ejecución-de-pruebas)
+  - [Pruebas Unitarias](#pruebas-unitarias)
+  - [Pruebas con Postman](#pruebas-con-postman)
+- [Colecciones de Postman](#colecciones-de-postman)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## **Prerrequisitos**
 
-## Installation
+- **Node.js** versión 14.x o superior
+- **npm** versión 6.x o superior
+
+Puedes verificar tu versión de Node.js y npm ejecutando:
 
 ```bash
-$ npm install
+node -v
+npm -v
 ```
 
-## Running the app
+## **Instalación**
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone https://github.com/dcsm8/social-club.git
+   cd social-club
+   ```
+
+2. **Instalar dependencias**
+
+   ```bash
+   npm install
+   ```
+
+## **Ejecución de la Aplicación**
+
+1. **Iniciar la aplicación**
+
+   ```bash
+   npm run start
+   ```
+
+   La aplicación se ejecutará en `http://localhost:3000`.
+
+2. **Verificar la ejecución**
+
+   Puedes acceder a `http://localhost:3000` en tu navegador o utilizar herramientas como Postman para interactuar con la API.
+
+## **Ejecución de Pruebas**
+
+### **Pruebas Unitarias**
+
+Para ejecutar las pruebas unitarias de los servicios y controladores, utiliza:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run test
 ```
 
-## Test
+Esto ejecutará todas las pruebas definidas en el proyecto utilizando Jest.
 
-```bash
-# unit tests
-$ npm run test
+### **Pruebas con Postman**
 
-# e2e tests
-$ npm run test:e2e
+#### **Importar la Colección y el Entorno**
 
-# test coverage
-$ npm run test:cov
-```
+1. **Abrir Postman**
 
-## Support
+2. **Importar la Colección**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   - Navega a la pestaña **Import** en Postman.
+   - Selecciona **Upload Files** y busca el archivo `Social Club.postman_collection.json` ubicado en la carpeta `collections` del proyecto.
 
-## Stay in touch
+3. **Importar el Entorno**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   - En la pestaña **Import**, selecciona nuevamente **Upload Files** y busca el archivo `Social Club Environment.postman_environment.json` en la carpeta `collections`.
 
-## License
+#### **Ejecutar las Pruebas**
 
-Nest is [MIT licensed](LICENSE).
+1. **Seleccionar el Entorno**
+
+   - En Postman, asegúrate de que el entorno `Social Club Environment` esté seleccionado.
+
+2. **Ejecutar la Colección**
+
+   - Navega a la colección `Social Club`.
+   - Haz clic en el botón **Run** para abrir el **Collection Runner**.
+   - Verifica que el entorno seleccionado sea `Social Club Environment`.
+   - Haz clic en **Start Run** para ejecutar todas las solicitudes.
+
+3. **Verificar Resultados**
+
+   - Al finalizar, verifica que todas las pruebas hayan pasado exitosamente.
+   - Si alguna prueba falla, revisa los detalles para identificar el problema.
+
+## **Colecciones de Postman**
+
+Las colecciones y el entorno de Postman se encuentran en la carpeta `collections` del proyecto:
+
+- `collections/Social Club.postman_collection.json`
+- `collections/Social Club Environment.postman_environment.json`
+
+Estas incluyen todas las solicitudes necesarias para probar la API según los requerimientos del proyecto.
+
+- **Migrations**
+
+  - No se utilizan migraciones en este proyecto. Las tablas se generan automáticamente a partir de las entidades definidas.
