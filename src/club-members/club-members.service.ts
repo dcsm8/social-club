@@ -86,7 +86,15 @@ export class ClubMembersService {
     if (!club)
       throw new NotFoundException(`Club with ID "${clubId}" not found`);
 
-    club.members = club.members.filter((member) => member.id !== memberId);
+    const memberIndex = club.members.findIndex(
+      (member) => member.id === memberId,
+    );
+    if (memberIndex === -1)
+      throw new NotFoundException(
+        `Member with ID "${memberId}" not found in club "${clubId}"`,
+      );
+
+    club.members.splice(memberIndex, 1);
     return this.clubsRepository.save(club);
   }
 }
