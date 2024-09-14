@@ -1,4 +1,3 @@
-import { Member } from 'src/members/entities/member.entity';
 import {
   Entity,
   Column,
@@ -6,6 +5,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
+import { Member } from '../../members/entities/member.entity';
 
 @Entity()
 export class Club {
