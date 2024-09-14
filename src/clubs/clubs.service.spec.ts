@@ -30,61 +30,95 @@ describe('ClubsService', () => {
 
   describe('findAll', () => {
     it('should return an array of clubs', async () => {
-      const result = [new Club()];
-      jest.spyOn(repo, 'find').mockResolvedValue(result);
+      // Given
+      const expectedClubs = [new Club()];
+      jest.spyOn(repo, 'find').mockResolvedValue(expectedClubs);
 
-      expect(await service.findAll()).toBe(result);
+      // When
+      const result = await service.findAll();
+
+      // Then
+      expect(result).toBe(expectedClubs);
     });
   });
 
   describe('findOne', () => {
-    it('should return a club', async () => {
-      const result = new Club();
-      jest.spyOn(repo, 'findOne').mockResolvedValue(result);
+    it('should return a club when it exists', async () => {
+      // Given
+      const clubId = '1';
+      const expectedClub = new Club();
+      jest.spyOn(repo, 'findOne').mockResolvedValue(expectedClub);
 
-      expect(await service.findOne('1')).toBe(result);
+      // When
+      const result = await service.findOne(clubId);
+
+      // Then
+      expect(result).toBe(expectedClub);
     });
 
-    it('should throw NotFoundException if club is not found', async () => {
+    it('should throw NotFoundException when club does not exist', async () => {
+      // Given
+      const clubId = '1';
       jest.spyOn(repo, 'findOne').mockResolvedValue(null);
 
-      await expect(service.findOne('1')).rejects.toThrow(NotFoundException);
+      // When & Then
+      await expect(service.findOne(clubId)).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('create', () => {
     it('should successfully create a club', async () => {
-      const club = new Club();
-      jest.spyOn(repo, 'create').mockReturnValue(club);
-      jest.spyOn(repo, 'save').mockResolvedValue(club);
+      // Given
+      const newClub = new Club();
+      const clubData = {
+        name: 'Test Club',
+        foundationDate: new Date(),
+        image: 'test.jpg',
+        description: 'Test Description',
+      };
+      jest.spyOn(repo, 'create').mockReturnValue(newClub);
+      jest.spyOn(repo, 'save').mockResolvedValue(newClub);
 
-      expect(
-        await service.create({
-          name: 'Test Club',
-          foundationDate: new Date(),
-          image: 'test.jpg',
-          description: 'Test Description',
-        }),
-      ).toBe(club);
+      // When
+      const result = await service.create(clubData);
+
+      // Then
+      expect(result).toBe(newClub);
+      expect(repo.create).toHaveBeenCalledWith(clubData);
+      expect(repo.save).toHaveBeenCalledWith(newClub);
     });
   });
 
   describe('update', () => {
     it('should successfully update a club', async () => {
-      const club = new Club();
-      jest.spyOn(repo, 'findOne').mockResolvedValue(club);
-      jest
-        .spyOn(repo, 'save')
-        .mockResolvedValue({ ...club, name: 'Updated Club' });
+      // Given
+      const clubId = '1';
+      const existingClub = new Club();
+      const updatedClub = { ...existingClub, name: 'Updated Club' };
+      const updateData = { name: 'Updated Club' };
+      jest.spyOn(repo, 'findOne').mockResolvedValue(existingClub);
+      jest.spyOn(repo, 'save').mockResolvedValue(updatedClub);
 
-      const result = await service.update('1', { name: 'Updated Club' } as any);
+      // When
+      const result = await service.update(clubId, updateData as any);
+
+      // Then
       expect(result.name).toBe('Updated Club');
+      expect(repo.findOne).toHaveBeenCalledWith({ where: { id: clubId } });
+      expect(repo.save).toHaveBeenCalledWith({
+        ...existingClub,
+        ...updateData,
+      });
     });
 
-    it('should throw NotFoundException if club to update is not found', async () => {
+    it('should throw NotFoundException when club to update does not exist', async () => {
+      // Given
+      const clubId = '1';
+      const updateData = { name: 'Updated Club' };
       jest.spyOn(repo, 'findOne').mockResolvedValue(null);
 
-      await expect(service.update('1', {} as any)).rejects.toThrow(
+      // When & Then
+      await expect(service.update(clubId, updateData as any)).rejects.toThrow(
         NotFoundException,
       );
     });
@@ -92,15 +126,22 @@ describe('ClubsService', () => {
 
   describe('delete', () => {
     it('should successfully delete a club', async () => {
+      // Given
+      const clubId = '1';
       jest.spyOn(repo, 'delete').mockResolvedValue({ affected: 1, raw: [] });
 
-      await expect(service.delete('1')).resolves.not.toThrow();
+      // When & Then
+      await expect(service.delete(clubId)).resolves.not.toThrow();
+      expect(repo.delete).toHaveBeenCalledWith(clubId);
     });
 
-    it('should throw NotFoundException if club to delete is not found', async () => {
+    it('should throw NotFoundException when club to delete does not exist', async () => {
+      // Given
+      const clubId = '1';
       jest.spyOn(repo, 'delete').mockResolvedValue({ affected: 0, raw: [] });
 
-      await expect(service.delete('1')).rejects.toThrow(NotFoundException);
+      // When & Then
+      await expect(service.delete(clubId)).rejects.toThrow(NotFoundException);
     });
   });
 });

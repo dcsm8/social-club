@@ -30,78 +30,124 @@ describe('MembersService', () => {
 
   describe('findAll', () => {
     it('should return an array of members', async () => {
-      const result = [new Member()];
-      jest.spyOn(repo, 'find').mockResolvedValue(result);
+      // Given
+      const expectedMembers = [new Member()];
+      jest.spyOn(repo, 'find').mockResolvedValue(expectedMembers);
 
-      expect(await service.findAll()).toBe(result);
+      // When
+      const result = await service.findAll();
+
+      // Then
+      expect(result).toBe(expectedMembers);
+      expect(repo.find).toHaveBeenCalled();
     });
   });
 
   describe('findOne', () => {
-    it('should return a member', async () => {
-      const result = new Member();
-      jest.spyOn(repo, 'findOne').mockResolvedValue(result);
+    it('should return a member when it exists', async () => {
+      // Given
+      const memberId = '1';
+      const expectedMember = new Member();
+      jest.spyOn(repo, 'findOne').mockResolvedValue(expectedMember);
 
-      expect(await service.findOne('1')).toBe(result);
+      // When
+      const result = await service.findOne(memberId);
+
+      // Then
+      expect(result).toBe(expectedMember);
+      expect(repo.findOne).toHaveBeenCalledWith({ where: { id: memberId } });
     });
 
-    it('should throw NotFoundException if member is not found', async () => {
+    it('should throw NotFoundException when member does not exist', async () => {
+      // Given
+      const memberId = '1';
       jest.spyOn(repo, 'findOne').mockResolvedValue(null);
 
-      await expect(service.findOne('1')).rejects.toThrow(NotFoundException);
+      // When & Then
+      await expect(service.findOne(memberId)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(repo.findOne).toHaveBeenCalledWith({ where: { id: memberId } });
     });
   });
 
   describe('create', () => {
     it('should successfully create a member', async () => {
-      const member = new Member();
-      jest.spyOn(repo, 'create').mockReturnValue(member);
-      jest.spyOn(repo, 'save').mockResolvedValue(member);
+      // Given
+      const newMember = new Member();
+      const memberData = {
+        username: 'testuser',
+        email: 'test@example.com',
+        birthDate: new Date(),
+      };
+      jest.spyOn(repo, 'create').mockReturnValue(newMember);
+      jest.spyOn(repo, 'save').mockResolvedValue(newMember);
 
-      expect(
-        await service.create({
-          username: 'testuser',
-          email: 'test@example.com',
-          birthDate: new Date(),
-        }),
-      ).toBe(member);
+      // When
+      const result = await service.create(memberData);
+
+      // Then
+      expect(result).toBe(newMember);
+      expect(repo.create).toHaveBeenCalledWith(memberData);
+      expect(repo.save).toHaveBeenCalledWith(newMember);
     });
   });
 
   describe('update', () => {
     it('should successfully update a member', async () => {
-      const member = new Member();
-      jest.spyOn(repo, 'findOne').mockResolvedValue(member);
-      jest
-        .spyOn(repo, 'save')
-        .mockResolvedValue({ ...member, username: 'updateduser' });
+      // Given
+      const memberId = '1';
+      const existingMember = new Member();
+      const updatedMember = { ...existingMember, username: 'updateduser' };
+      const updateData = { username: 'updateduser' };
+      jest.spyOn(repo, 'findOne').mockResolvedValue(existingMember);
+      jest.spyOn(repo, 'save').mockResolvedValue(updatedMember);
 
-      const result = await service.update('1', {
-        username: 'updateduser',
-      } as any);
+      // When
+      const result = await service.update(memberId, updateData as any);
+
+      // Then
       expect(result.username).toBe('updateduser');
+      expect(repo.findOne).toHaveBeenCalledWith({ where: { id: memberId } });
+      expect(repo.save).toHaveBeenCalledWith({
+        ...existingMember,
+        ...updateData,
+      });
     });
 
-    it('should throw NotFoundException if member to update is not found', async () => {
+    it('should throw NotFoundException when member to update does not exist', async () => {
+      // Given
+      const memberId = '1';
+      const updateData = { username: 'updateduser' };
       jest.spyOn(repo, 'findOne').mockResolvedValue(null);
 
-      await expect(service.update('1', {} as any)).rejects.toThrow(
+      // When & Then
+      await expect(service.update(memberId, updateData as any)).rejects.toThrow(
         NotFoundException,
       );
+      expect(repo.findOne).toHaveBeenCalledWith({ where: { id: memberId } });
     });
   });
 
   describe('delete', () => {
     it('should successfully delete a member', async () => {
+      // Given
+      const memberId = '1';
       jest.spyOn(repo, 'delete').mockResolvedValue({ affected: 1, raw: [] });
 
-      await expect(service.delete('1')).resolves.not.toThrow();
+      // When & Then
+      await expect(service.delete(memberId)).resolves.not.toThrow();
+      expect(repo.delete).toHaveBeenCalledWith(memberId);
     });
 
-    it('should throw NotFoundException if member to delete is not found', async () => {
+    it('should throw NotFoundException when member to delete does not exist', async () => {
+      // Given
+      const memberId = '1';
       jest.spyOn(repo, 'delete').mockResolvedValue({ affected: 0, raw: [] });
 
-      await expect(service.delete('1')).rejects.toThrow(NotFoundException);
+      // When & Then
+      await expect(service.delete(memberId)).rejects.toThrow(NotFoundException);
+      expect(repo.delete).toHaveBeenCalledWith(memberId);
     });
   });
 });
