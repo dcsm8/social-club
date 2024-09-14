@@ -1,6 +1,6 @@
-# Social Club API
+# Social Club API Prueba Práctica
 
-Este es un proyecto de Nest.js que implementa un sistema para un club social. La aplicación permite gestionar socios, clubes y la asociación entre ellos.
+Este es un proyecto de Nest.js Prueba Práctica
 
 ## **Tabla de Contenidos**
 
@@ -92,11 +92,6 @@ Esto ejecutará todas las pruebas definidas en el proyecto utilizando Jest.
    - Haz clic en el botón **Run** para abrir el **Collection Runner**.
    - Verifica que el entorno seleccionado sea `Social Club Environment`.
    - Haz clic en **Start Run** para ejecutar todas las solicitudes.
-
-3. **Verificar Resultados**
-
-   - Al finalizar, verifica que todas las pruebas hayan pasado exitosamente.
-   - Si alguna prueba falla, revisa los detalles para identificar el problema.
 
 ## **Colecciones de Postman**
 
